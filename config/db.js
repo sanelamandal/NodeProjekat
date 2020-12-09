@@ -7,4 +7,4 @@ const db = new Pool({
     database:'hiogtygx'
 })
 
-module.exports = pg
+module.exports = db

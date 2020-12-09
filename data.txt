@@ -1,0 +1,10 @@
+create table Users (
+	id serial,
+	name varchar(50) not null,
+	last_name varchar(50) not null, 
+	email varchar(50),
+	password int not null
+)
+
+alter table Users
+alter column password type varchar(256)

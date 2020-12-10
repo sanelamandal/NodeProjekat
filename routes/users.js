@@ -17,7 +17,7 @@ router.post('/register', function(req, res) {
   password = encrypt(password);
   db.query('insert into Users (name, last_name, email, password) values($1,$2,$3,$4)', [ime, prezime, email, password])
     .then(() => {
-      res.redirect('/users/login');
+      res.redirect('/users/register');
     })
     .catch(err => {
       console.log(err);
@@ -36,6 +36,20 @@ router.post('/login', function(req, res) {
     .catch(err => {
       console.log(err);
     })
-
 })
+
+router.get('/all_users', function(req, res) {
+    
+  db.query('select name, last_name, email from users')
+   .then(response => {
+       const result = response.rows;
+       res.render('users/all_users', {
+           users: result
+       })
+   })
+   .catch(err => {
+       console.log(err);
+   })
+})
+ 
 module.exports = router;

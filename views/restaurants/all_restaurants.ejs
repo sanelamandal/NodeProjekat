@@ -1,0 +1,23 @@
+<div>
+  <table>
+    <tr>
+        <th>Naziv</th>
+        <th>Adresa</th>
+        <th>Latituda</th>
+        <th>Longituda</th>
+        <th>Telefon</th>
+        <th>Grad</th>
+    </tr>
+    <%for (var i=0; i<restaurants.length; i++) {%>
+    <tr>
+        <td><%= restaurants[i].name%></td>
+        <td><%= restaurants[i].address%></td>
+        <td><%= restaurants[i].latitude%></td>
+        <td><%= restaurants[i].longitude%></td>
+        <td><%= restaurants[i].phone%></td>
+        <td><%= restaurants[i].city%></td>
+    </tr>
+    <%}%>
+</table>
+
+</div>

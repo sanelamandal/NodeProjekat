@@ -36,6 +36,5 @@ router.post('/login', function(req, res) {
     .catch(err => {
       console.log(err);
     })
-
 })
 module.exports = router;

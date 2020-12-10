@@ -8,3 +8,17 @@ create table Users (
 
 alter table Users
 alter column password type varchar(256)
+
+create table restaurants (
+	id serial,
+	name varchar(50) not null,
+	address varchar(50) not null, 
+	latitude bigint,
+	longitude bigint,
+	phone int,
+	working_hours int,
+	availability boolean,
+	rate int,
+	city varchar(50),
+)
+

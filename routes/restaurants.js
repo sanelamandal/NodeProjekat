@@ -9,8 +9,8 @@ router.get('/add_restaurant', function(req, res) {
   });
   
 router.post('/add_restaurant', function(req, res) {
-    let {naziv, adresa, telefon, grad} = req.body
-    db.query('insert into Restaurants (name, address, phone, city) values($1,$2,$3,$4)', [naziv, adresa, telefon, grad])
+    let {naziv, adresa, latituda, longituda, telefon, grad} = req.body
+    db.query('insert into Restaurants (name, address, latitude, longitude, phone, city) values($1,$2,$3,$4,$5,$6)', [naziv,adresa,latituda,longituda,telefon,grad])
       .then(() => {
         res.redirect('/restaurants/add_restaurant');
       })
@@ -40,7 +40,7 @@ router.get('/find_restaurant', function(req, res) {
   
 router.post('/find_restaurant', function(req, res) {
     let {naziv} = req.body
-    db.query('select name, address, phone, city from restaurants where name=$1', [naziv])
+    db.query('select name, address, latitude, longitude, phone, city from restaurants where name=$1', [naziv])
       .then(response => {
         const result = response.rows[0];
         res.render('restaurants/restaurant_details', {

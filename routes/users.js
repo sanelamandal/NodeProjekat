@@ -17,7 +17,7 @@ router.post('/register', function(req, res) {
   password = encrypt(password);
   db.query('insert into Users (name, last_name, email, password) values($1,$2,$3,$4)', [ime, prezime, email, password])
     .then(() => {
-      res.redirect('/users/login');
+      res.redirect('/users/register');
     })
     .catch(err => {
       console.log(err);

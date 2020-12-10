@@ -22,3 +22,39 @@ create table restaurants (
 	city varchar(50),
 )
 
+alter table restaurants
+alter column latitude type varchar(256);
+alter table restaurants
+alter column longitude type varchar(256);
+
+update restaurants
+set latitude='43.86442', longitude='18.41486'
+where name = '4 Sobe Gospodje Safije';
+
+update restaurants
+set latitude='43.85921', longitude='18.42087'
+where name = 'Blind Tiger';
+ 
+update restaurants
+set latitude='43.85522', longitude='18.41619'
+where name = 'Vinoteka';
+
+update restaurants
+set latitude='43.85864', longitude='18.43435'
+where name = 'Inat Kuća';
+
+update restaurants
+set latitude='43.85646', longitude='18.40543'
+where name = 'Vapiano';
+
+update restaurants
+set latitude='43.85872', longitude='18.41759'
+where name = 'Gastro Pub Vučko';
+
+update restaurants
+set latitude='43.85374', longitude='18.43641'
+where name = 'Park Prinčeva';
+
+update restaurants
+set latitude='43.86045', longitude='18.41163'
+where name = 'Kod Dvije Domaćice';

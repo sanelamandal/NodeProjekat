@@ -37,4 +37,19 @@ router.post('/login', function(req, res) {
       console.log(err);
     })
 })
+
+router.get('/all_users', function(req, res) {
+    
+  db.query('select name, last_name, email from users')
+   .then(response => {
+       const result = response.rows;
+       res.render('users/all_users', {
+           users: result
+       })
+   })
+   .catch(err => {
+       console.log(err);
+   })
+})
+ 
 module.exports = router;

@@ -2,7 +2,7 @@ const { response } = require('express');
 var express = require('express');
 const db = require('../config/db');
 var router = express.Router();
-const pg = require('../config/db');
+//const pg = require('../config/db');
 
 router.get('/add_restaurant', function(req, res) {
     res.render('restaurants/add_restaurant')
@@ -51,4 +51,26 @@ router.post('/find_restaurant', function(req, res) {
         console.log(err);
       })
   })
+
+  router.get('/update/:id', function(req, res) {
+    var id = req.params.id;
+    res.render('restaurants/update', {
+      id:id
+
+    })
+  });
+   
+  router.post('/update/:id', function(req, res) {
+    let {naziv, adresa} = req.body;
+    var id = req.params.id;
+    console.log(id);
+    db.query("update restaurants set name=$1, address=$2 where id=$3 ", [naziv,adresa,id])
+     .then(() => {
+         res.redirect('/restaurants/all_restaurants')
+     })
+     .catch(err => {
+         console.log(err);
+     })
+});
+   
 module.exports = router;

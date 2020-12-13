@@ -1,4 +1,4 @@
-create table Users (
+create table users (
 	id serial,
 	name varchar(50) not null,
 	last_name varchar(50) not null, 
@@ -6,7 +6,7 @@ create table Users (
 	password int not null
 )
 
-alter table Users
+alter table users
 alter column password type varchar(256)
 
 create table restaurants (
@@ -16,10 +16,8 @@ create table restaurants (
 	latitude bigint,
 	longitude bigint,
 	phone int,
-	working_hours int,
-	availability boolean,
-	rate int,
 	city varchar(50),
+	range int
 )
 
 alter table restaurants
@@ -58,3 +56,82 @@ where name = 'Park Prinčeva';
 update restaurants
 set latitude='43.86045', longitude='18.41163'
 where name = 'Kod Dvije Domaćice';
+
+create table food_types (
+	id serial,
+	type varchar(50)
+);
+
+
+insert into food_types (type) values ('Local Cuisine');
+insert into food_types (type) values ('Vegan Options');
+insert into food_types (type) values ('International Cuisine');
+insert into food_types (type) values ('French Cuisine');
+insert into food_types (type) values ('Italian Cuisine');
+insert into food_types (type) values ('American Cuisine');
+insert into food_types (type) values ('French Cuisine');
+
+
+create table restaurant_types (
+	id serial,
+	type varchar(50)
+);
+
+alter table restaurants
+add column restaurant_type integer;
+
+ALTER TABLE restaurants
+ADD FOREIGN KEY (restaurant_type) REFERENCES restaurant_types(id);
+
+create table roles (
+	id serial,
+	role varchar(50) not null
+);
+
+insert into roles (role) values ('Administrator');
+insert into roles (role) values ('Restaurant Administrator');
+insert into roles (role) values ('Customer');
+insert into roles (role) values ('Deliverer');
+
+create table lk_user_role (
+	id_user int,
+	id_role int
+);
+ALTER TABLE lk_user_role
+ADD FOREIGN KEY (id_user) REFERENCES users(id);
+ALTER TABLE lk_user_role
+ADD FOREIGN KEY (id_role) REFERENCES roles(id);
+
+create table lk_employment (
+	id_user int,
+	id_restaurant int
+);
+
+ALTER TABLE lk_employment
+ADD FOREIGN KEY (id_user) REFERENCES users(id);
+ALTER TABLE lk_employment
+ADD FOREIGN KEY (id_restaurant) REFERENCES restaurants(id);
+
+create table lk_restaurant_review (
+	id_user int,
+	id_restaurant int
+);
+
+ALTER TABLE lk_restaurant_review
+ADD FOREIGN KEY (id_user) REFERENCES users(id);
+ALTER TABLE lk_employment
+ADD FOREIGN KEY (id_restaurant) REFERENCES restaurants(id);
+
+create table lk_restaurant_food (
+	id_restaurant int,
+	id_food int,
+	delivery_time int
+);
+
+ALTER TABLE lk_restaurant_food
+ADD FOREIGN KEY (id_restaurant) REFERENCES restaurants(id);
+ALTER TABLE lk_restaurant_food
+ADD FOREIGN KEY (id_food) REFERENCES food_types(id);
+
+delete from food_types;
+

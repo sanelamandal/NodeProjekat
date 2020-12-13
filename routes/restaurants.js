@@ -52,15 +52,15 @@ router.post('/find_restaurant', function(req, res) {
       })
   })
 
-  router.get('/update/:id', function(req, res) {
+  router.get('/update_restaurant/:id', function(req, res) {
     var id = req.params.id;
-    res.render('restaurants/update', {
+    res.render('restaurants/update_restaurant', {
       id:id
 
     })
   });
    
-  router.post('/update/:id', function(req, res) {
+  router.post('/update_restaurant/:id', function(req, res) {
     let {naziv, adresa} = req.body;
     var id = req.params.id;
     console.log(id);

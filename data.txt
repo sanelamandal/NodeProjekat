@@ -135,3 +135,28 @@ ADD FOREIGN KEY (id_food) REFERENCES food_types(id);
 
 delete from food_types;
 
+select * from food_types;
+delete from food_types;
+
+select type from food_types where id in 
+(select id_food from lk_restaurant_food where id_restaurant in 
+(select id from restaurants where name = 'Blind Tiger'));
+
+insert into food_types (type) values ('pasta');
+insert into food_types (type) values ('piletina');
+insert into food_types (type) values ('cevapi');
+insert into food_types (type) values ('pita');
+insert into food_types (type) values ('pomfrit');
+insert into food_types (type) values ('pica');
+
+
+
+
+select * from lk_restaurant_food;
+insert into lk_restaurant_food (id_restaurant, id_food) values (1,8);
+insert into lk_restaurant_food(id_restaurant, id_food) values (1,9);
+insert into lk_restaurant_food(id_restaurant, id_food) values (1,10);
+insert into lk_restaurant_food(id_restaurant, id_food) values (2,11);
+insert into lk_restaurant_food(id_restaurant, id_food) values (2,9);
+insert into lk_restaurant_food(id_restaurant, id_food) values (2,12);
+

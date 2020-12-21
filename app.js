@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var restaurantsRouter = require('./routes/restaurants');
 var foodRouter = require('./routes/food');
-
+var authmiddleware = require('./middlewares/auth');
 
 const pg = require('./config/db');
 var app = express();
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/restaurants', restaurantsRouter);
+app.use('/restaurants', authmiddleware.authmiddleware, restaurantsRouter);
 app.use('/food', foodRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

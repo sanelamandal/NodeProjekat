@@ -25,12 +25,14 @@ router.post('/register', function(req, res) {
     })
 })
 
-router.post('/login', function(req, res) {
+router.post('/login', function(req, response) {
   let {email, password} = req.body
-  db.query('select email, password from Users where email = $1', [email])
+  db.query('select id, email, password from Users where email = $1', [email])
     .then(res => {
       if(password == decrypt(res.rows[0].password)){
-        console.log('login uspjesan');
+        response
+          .cookie("id", encrypt(res.rows[0].id))
+          .redirect('/restaurants/all_restaurants')
       }
     })
     .catch(err => {
@@ -52,4 +54,10 @@ router.get('/all_users', function(req, res) {
    })
 })
  
+router.get('/logout', function(req,res) {
+  res
+    .clearCookie("id")
+    .redirect('/users/login')
+
+})
 module.exports = router;

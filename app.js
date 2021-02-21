@@ -8,7 +8,11 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var restaurantsRouter = require('./routes/restaurants');
 var foodRouter = require('./routes/food');
+var customersRouter = require('./routes/customers');
+var ordersRouter = require('./routes/orders');
+var chatRouter = require('./routes/chat');
 var authmiddleware = require('./middlewares/auth');
+
 
 const pg = require('./config/db');
 var app = express();
@@ -29,7 +33,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/restaurants', authmiddleware.authmiddleware, restaurantsRouter);
-app.use('/food', foodRouter);
+app.use('/food/restaurant_food', foodRouter);
+app.use('/customers', customersRouter);
+app.use('/orders', ordersRouter);
+app.use('/chat', chatRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

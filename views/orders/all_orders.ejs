@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="HandheldFriendly" content="true">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Restoran</title>
+</head>
+<body>
+    <div class="container">
+    <div style="overflow-x:auto;">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date created</th>
+                <th scope="col">Delivery time</th>
+                <th scope="col">Restaurant</th>
+                <th scope="col">Customer</th>
+            </tr>
+            </thead>
+            <tbody>
+                <%for (var i=0; i<orders.length; i++) {%>
+                    <tr>
+                        <td><%= orders[i].price%></td>
+                        <td><%= orders[i].status%></td>
+                        <td><%= orders[i].date_created%></td>
+                        <td><%= orders[i].delivery_time%></td>
+                        <td><%= orders[i].id_restaurant%></td>
+                        <td><%= orders[i].customer_id%></td>
+                        <td>
+                            <select id="selectId">
+                                <% for (var j=0;j<deliverers.length;j++) {%>
+                                    <option value="<%= deliverers[j].id%>"><%= deliverers[j].name %> <%= deliverers[j].last_name %></option>
+                                <%}%>
+                            </select>
+                        </td>
+                        <td>
+                            <button onclick="addDeliverer('<%= orders[i].id %>')">Add deliverer</button>
+                        </td>
+                    </tr>
+                    <%}%>
+            </tbody>
+    </table>
+    </div>
+    </div>
+
+    <script>
+        function addDeliverer(id)
+        {
+            let select = document.getElementById('selectId').value;
+            console.log(select);
+            console.log(id);
+
+            fetch('http://localhost:3000/orders/update/' + id, {
+                method: 'POST',
+                headers: {
+                        'Content-Type': 'application/json',
+                    },
+                body: JSON.stringify({
+                    deliverer_id: select
+                })
+            })
+            .then(res => {
+                location.reload();
+            })
+            .catch(err => {
+                alert('greska');
+            })
+        }
+    </script>
+</body>
+</html>

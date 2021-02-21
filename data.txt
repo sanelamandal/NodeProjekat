@@ -160,3 +160,188 @@ insert into lk_restaurant_food(id_restaurant, id_food) values (2,11);
 insert into lk_restaurant_food(id_restaurant, id_food) values (2,9);
 insert into lk_restaurant_food(id_restaurant, id_food) values (2,12);
 
+drop table lk_user_role;
+
+ALTER TABLE lk_employment
+ADD FOREIGN KEY (id_role) REFERENCES roles(id);
+
+
+alter table restaurants
+add archive boolean DEFAULT false;
+
+create table Products (
+    id serial primary key,
+    name varchar(255) not null unique,
+    unit_price int not null,
+    photo varchar(100) not null,
+    id_food int,
+    foreign key(id_food) references food_types(id)
+);
+
+alter table products
+add column id_restaurant int;
+
+alter table products
+add FOREIGN KEY(id_restaurant)
+REFERENCES restaurants(id);
+
+
+create table menu(
+    id serial primary key,
+    name varchar(255) not null,
+    id_restaurant int not null,
+    foreign key (id_restaurant)
+    references restaurants(id)
+);
+
+create table products_menu(
+    id_product int not null,
+    id_menu int not null,
+    foreign key(id_product)
+    REFERENCES products(id),
+    foreign key(id_menu)
+    REFERENCES menu(id)
+);
+
+insert into food_types (type)
+values('Morski plodovi');
+insert into food_types (type)
+values('Rostilj');
+insert into food_types (type)
+values('Bosanska jela');
+insert into food_types (type)
+values('Juhe');
+insert into food_types (type)
+values('Salate');
+insert into food_types (type)
+values('Deserti');
+
+create type order_status as enum('pending','sent','delivered');
+create table orders (
+    id serial PRIMARY KEY,
+    price int not null,
+    status order_status,
+    date_created date,
+    delivery_time int
+);
+
+create table lk_product_order (
+    id_product int,
+    id_order int,
+    FOREIGN KEY(id_product) REFERENCES products(id),
+    FOREIGN KEY(id_order) REFERENCES orders(id)
+);
+
+alter table lk_product_order 
+drop column id_product;
+
+alter table lk_product_order
+add column product_name varchar;
+
+alter table orders
+add column payment_type varchar;
+
+CREATE TABLE customers (
+    id serial PRIMARY KEY,
+    name varchar(255) not null,
+    last_name varchar(255) not null,
+    email varchar(255) not null,
+    password varchar(255) not null
+);
+
+alter table orders
+add column customer_id int;
+
+alter table orders
+ADD FOREIGN KEY (customer_id) REFERENCES customers(id);
+
+alter table customers
+add COLUMN address varchar;
+
+
+alter table products 
+add column discount int;
+
+alter table products 
+add column discount_time date;
+
+alter table products
+add column discount_on bool;
+
+alter table orders
+add column deliverer_id int;
+
+alter table orders
+add FOREIGN KEY (deliverer_id)
+REFERENCES users(id);
+
+update products
+set discount = unit_price / 2;
+
+update products
+set discount_time = '2021-02-25'
+where id_restaurant = 4;
+
+update products
+set discount_time = '2021-02-27'
+where id_restaurant = 5;
+
+update products
+set discount_time = '2021-02-28'
+where id_restaurant = 6;
+
+update products
+set discount_time = '2021-02-23'
+where id_restaurant = 7;
+
+update products
+set discount_time = '2021-02-01'
+where id_restaurant = 8;
+
+update products
+set discount_time = '2021-03-25'
+where id_restaurant = 1;
+
+create table special_prices (
+    id serial,
+    price int, 
+    active bool
+);
+
+alter table special_prices
+add PRIMARY key (id);
+
+alter table products
+add column special_price int;
+
+alter table products
+add constraint special_price_fk FOREIGN KEY (special_price) REFERENCES special_prices(id);
+
+insert into special_prices (price,active) values (10,true);
+insert into special_prices (price,active) values (12,true);
+insert into special_prices (price,active) values (9,false);
+insert into special_prices (price,active) values (5,false);
+
+select * from special_prices;
+
+update products
+set special_price = 1 where id = 10;
+
+update products
+set special_price = 4 where id = 11;
+
+update products
+set special_price = 2 where id = 12;
+
+update products
+set special_price = 3 where id = 16;
+select * from products;
+
+alter table customers
+add column latitude varchar(255);
+
+alter table customers
+add column longitude varchar(255);
+
+alter table products
+add column counter int;

@@ -1,23 +1,64 @@
-<div>
-  <table>
-    <tr>
-        <th>Naziv</th>
-        <th>Adresa</th>
-        <th>Latituda</th>
-        <th>Longituda</th>
-        <th>Telefon</th>
-        <th>Grad</th>
-    </tr>
-    <%for (var i=0; i<restaurants.length; i++) {%>
-    <tr>
-        <td><%= restaurants[i].name%></td>
-        <td><%= restaurants[i].address%></td>
-        <td><%= restaurants[i].latitude%></td>
-        <td><%= restaurants[i].longitude%></td>
-        <td><%= restaurants[i].phone%></td>
-        <td><%= restaurants[i].city%></td>
-    </tr>
-    <%}%>
-</table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="HandheldFriendly" content="true">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Restoran</title>
+</head>
+<body>
+  <div class="container" style="overflow-x:auto;">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Latitude</th>
+            <th scope="col">Longitude</th>
+            <th scope="col">Phone</th>
+            <th scope="col">City</th>
+            <th scope="col">Archive</th>
+          </tr>
+        </thead>
+        <tbody>
+            <%for (var i=0; i<restaurants.length; i++) {%>
+                <tr>
+                    <td><a href="/restaurants/<%= restaurants[i].id %>"><%= restaurants[i].name%></a></td>
+                    <td><%= restaurants[i].address%></td>
+                    <td><%= restaurants[i].latitude%></td>
+                    <td><%= restaurants[i].longitude%></td>
+                    <td><%= restaurants[i].phone%></td>
+                    <td><%= restaurants[i].city%></td>
+                    <td><button onclick="ArchiveRestaurant('<%= restaurants[i].id %>')">Archive</button></td>
+                </tr>
+                <%}%>
+        </tbody>
+      </table>
+  </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="button-href" type="button"><a href="/users/logout" class="a-link">Logout</a></button>
+    </div>
 
-</div>
+  <script>
+    function ArchiveRestaurant(id) {
+      fetch('/restaurants/archive/' + id, {
+        method: 'PUT'
+      })
+      .then(res => {
+        location.reload();
+        
+      })
+      .catch(err => {
+        alert('greska');
+      })
+    }
+  </script>
+</body>
+</html>

@@ -5,6 +5,6 @@ const db = new Pool({
     user: 'hiogtygx',
     port: 5432,
     database:'hiogtygx'
-})
+});
 
-module.exports = db
+module.exports = db;

@@ -43,6 +43,12 @@ router.get('/login', function(req, res, next) {
       })
   })
 
+  router.get('/logout', function(req,res) {
+    res
+      .clearCookie("id")
+      .redirect('/customers/login')
+  })
+  
 router.get('/:id', function(req,res) {
     let {id} = req.params;
     db.query('select * from customers where id=$1', [id])

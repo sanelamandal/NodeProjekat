@@ -3,6 +3,7 @@ const db = require('../config/db');
 var router = express.Router();
 const cryptor = require('../config/cryptor');
 const Notification = require('node-notifier');
+const {isAdmin} = require('../utils/isAdmin');
 
 router.get('/select_restaurant', function(req,res){
     db.query('select * from restaurants')
@@ -58,7 +59,7 @@ router.post('/:id/submit_order', async function(req,res) {
         })
 });
     
-router.post('/update/:id', function(req,res) {
+router.post('/update/:id', isAdmin, function(req,res) {
     let {id} = req.params;
     let {deliverer_id} = req.body;
     console.log(id,deliverer_id);

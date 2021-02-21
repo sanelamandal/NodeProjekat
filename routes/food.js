@@ -6,6 +6,7 @@ var multer  = require('multer');
 const storage = require('../config/multerUpload');
 const { promiseImpl } = require('ejs');
 var upload = multer({storage});
+const {isAdmin} = require('../utils/isAdmin');
 
 router.get('/', function(req, res){
     res.render('food/restaurant_food') 
@@ -52,7 +53,7 @@ router.get('/:id', function(req, res) {
      })
 })
 
-router.get('/:id/add_food', async function(req,res) {
+router.get('/:id/add_food', isAdmin, async function(req,res) {
     let {id} = req.params;
     console.log(id);
     try {
@@ -67,7 +68,7 @@ router.get('/:id/add_food', async function(req,res) {
     
 })
 
-router.post('/:id/add_food', upload.single('picture'), function(req,res) {
+router.post('/:id/add_food', isAdmin, upload.single('picture'), function(req,res) {
     let {id} = req.params;
     let {naziv,cijena,food_type} = req.body;
     console.log(req.body);
@@ -83,7 +84,7 @@ router.post('/:id/add_food', upload.single('picture'), function(req,res) {
 
 
 
-router.get('/:id/add_menu', async function(req,res) {
+router.get('/:id/add_menu', isAdmin, async function(req,res) {
     let {id} = req.params;
     console.log(id);
     db.query('select * from menu where id_restaurant = $1', [id])
@@ -95,7 +96,7 @@ router.get('/:id/add_menu', async function(req,res) {
     })
 })
 
-router.post('/:id/add_menu', function(req,res) {
+router.post('/:id/add_menu', isAdmin, function(req,res) {
     let {id} = req.params;
     let {naziv} = req.body;
     db.query('insert into menu(name,id_restaurant) values($1,$2)', [naziv,id])
@@ -107,7 +108,7 @@ router.post('/:id/add_menu', function(req,res) {
         })
 })
 
-router.get('/:id/menu_add_food/:menu_id', function(req,res) {
+router.get('/:id/menu_add_food/:menu_id', isAdmin, function(req,res) {
     let {id, menu_id} = req.params;
     Promise.all([
         db.query('select * from products where id_restaurant = $1', [id]),
@@ -131,7 +132,7 @@ router.get('/:id/menu_add_food/:menu_id', function(req,res) {
     })
 })
 
-router.post('/:id/menu_add_food/:menu_id', function(req,res) {
+router.post('/:id/menu_add_food/:menu_id', isAdmin, function(req,res) {
     let {food_name} = req.body;
     let {id,menu_id} = req.params;
     db.query('insert into products_menu(id_product,id_menu) values($1,$2)', [food_name,menu_id])

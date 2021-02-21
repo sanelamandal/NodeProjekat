@@ -14,6 +14,7 @@
     <title>Restoran</title>
 </head>
 <body>
+    <a class="button-href" href="/orders/select_restaurant" class="a-link">Back</a>
     <div class="container">
     <div>
         <a class="button-href" href="/food/restaurant_food/special_prices" class="a-link">Special prices</a>
@@ -73,7 +74,7 @@
                 if(Object.keys(array_products).length == 0){
                     return;
                 }
-                fetch(`http://localhost:3000/orders/${id}/submit_order`,{
+                fetch(`https://obscure-tor-74226.herokuapp.com/orders/${id}/submit_order`,{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
